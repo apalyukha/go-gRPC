@@ -2,9 +2,10 @@ package main
 
 import (
 	"context"
-	pb "github.com/apalyukha/go-gRPC/server/pb/inventory"
 	"log"
 	"net"
+
+	pb "github.com/apalyukha/go-gRPC/src/server/pb/books"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
@@ -21,20 +22,6 @@ func (s *server) GetBookList(ctx context.Context, in *pb.GetBookListRequest) (*p
 	}, nil
 }
 
-func main() {
-	listener, err := net.Listen("tcp", ":8080")
-	if err != nil {
-		panic(err)
-	}
-
-	s := grpc.NewServer()
-	reflection.Register(s)
-	pb.RegisterInventoryServer(s, &server{})
-	if err := s.Serve(listener); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
-}
-
 func getSampleBooks() []*pb.Book {
 	sampleBooks := []*pb.Book{
 		{
@@ -49,4 +36,18 @@ func getSampleBooks() []*pb.Book {
 		},
 	}
 	return sampleBooks
+}
+
+func main() {
+	listener, err := net.Listen("tcp", ":8080")
+	if err != nil {
+		panic(err)
+	}
+
+	s := grpc.NewServer()
+	reflection.Register(s)
+	pb.RegisterInventoryServer(s, &server{})
+	if err := s.Serve(listener); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }

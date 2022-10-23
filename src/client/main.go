@@ -2,8 +2,9 @@ package main
 
 import (
 	"context"
-	pb "github.com/apalyukha/go-gRPC/client/pb/inventory"
 	"log"
+
+	pb "github.com/apalyukha/go-gRPC/src/client/pb/books"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
